@@ -27,7 +27,6 @@
     "psr-4": {
       "PHPValidate\\Test\\": "test/PHPValidate/Test"
     }
-  },
-  "minimum-stability": "dev"
+  }
 }
 
