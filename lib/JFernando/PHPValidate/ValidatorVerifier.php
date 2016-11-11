@@ -54,7 +54,7 @@ class ValidatorVerifier
                 if ($fieldValue === null) {
                     return [$this->getNotValidError($annotation, $prop, $reflectedClass, $args)];
                 }
-                return $this->validate($fieldValue);
+                return $this->validate($fieldValue, $args);
             }
 
             /** @var Validator $validator */
