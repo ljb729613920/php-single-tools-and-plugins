@@ -13,9 +13,11 @@ class ValidatorError
 
     protected $code;
     protected $message;
+    protected $params;
 
-    public function __construct($code, $message)
+    public function __construct($code, $message, $params = [])
     {
+        $this->params = $params;
         $this->code = $code;
         $this->message = $message;
     }
@@ -28,6 +30,10 @@ class ValidatorError
     public function getMessage()
     {
         return $this->message;
+    }
+
+    public function getParams(){
+        return $this->params;
     }
 
     public function __toString()
