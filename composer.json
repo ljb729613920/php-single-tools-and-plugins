@@ -10,7 +10,8 @@
     "phpmetrics/phpmetrics": "^1.10",
     "squizlabs/php_codesniffer": "*",
     "sebastian/phpcpd": "*",
-    "phpmd/phpmd" : "@stable"
+    "phpmd/phpmd" : "@stable",
+    "codeclimate/php-test-reporter": "dev-master"
   },
   "authors": [
     {

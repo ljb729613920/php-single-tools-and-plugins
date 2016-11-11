@@ -21,7 +21,7 @@ class ValidatorVerifier
         $this->byGet = $byGet;
     }
 
-    public function validate($entity)
+    public function validate($entity, $args = [])
     {
         $exceptions = [];
 
@@ -35,7 +35,7 @@ class ValidatorVerifier
                 $annotationClass = new \ReflectionClass($annotation);
 
                 if ($this->isValidAnnotation($annotationClass)) {
-                    $validationErrors = $this->validateAnnotation($annotation, $prop, $reflectedClass, $entity);
+                    $validationErrors = $this->validateAnnotation($annotation, $prop, $reflectedClass, $entity, $args);
                     $exceptions = array_merge($exceptions, $validationErrors);
                 }
             }
@@ -44,7 +44,7 @@ class ValidatorVerifier
         return $exceptions;
     }
 
-    private function validateAnnotation($annotation, \ReflectionProperty $prop, $reflectedClass, $entity)
+    private function validateAnnotation($annotation, \ReflectionProperty $prop, $reflectedClass, $entity, $args)
     {
         $exceptions = [];
         if ($annotation != null) {
@@ -52,7 +52,7 @@ class ValidatorVerifier
 
             if ($annotation->isClass) {
                 if ($fieldValue === null) {
-                    return [$this->getNotValidError($annotation, $prop, $reflectedClass)];
+                    return [$this->getNotValidError($annotation, $prop, $reflectedClass, $args)];
                 }
                 return $this->validate($fieldValue);
             }
@@ -62,23 +62,25 @@ class ValidatorVerifier
             $isValid = $validator->isValid($fieldValue, $annotation->param);
 
             if (!$isValid) {
-                $exceptions[] = $this->getNotValidError($annotation, $prop, $reflectedClass);
+                $exceptions[] = $this->getNotValidError($annotation, $prop, $reflectedClass, $args);
             }
         }
 
         return $exceptions;
     }
 
-    private function getNotValidError($annotation, \ReflectionProperty $prop, \ReflectionClass $class)
+    private function getNotValidError($annotation, \ReflectionProperty $prop, \ReflectionClass $class, $args)
     {
         $annotationFields = $this->getAnnotationFields($annotation);
         $annotationFields['field'] = $prop->getName();
         $annotationFields['class'] = $class->getShortName();
 
+        $annotationFields = array_merge($annotationFields, $args);
+
         $annotation->code = $this->formatString($annotation->code, $annotationFields);
         $annotation->message = $this->formatString($annotation->message, $annotationFields);
 
-        return new $annotation->errors($annotation->code, $annotation->message);
+        return new $annotation->errors($annotation->code, $annotation->message, $args);
     }
 
     private function formatString(string $value, array $params) : string
