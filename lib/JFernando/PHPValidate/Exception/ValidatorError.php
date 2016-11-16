@@ -36,6 +36,17 @@ class ValidatorError
         return $this->params;
     }
 
+    public function addParam(array $param){
+        $this->params[] = $param;
+    }
+
+    public function getParam(string $key){
+        if($this->params[$key]){
+            return $this->params[$key];
+        }
+        return null;
+    }
+
     public function __toString()
     {
         return '{"code" : "' . $this->getCode()  . '", "message" : "' . $this->getMessage() .'"}';
