@@ -11,8 +11,16 @@ namespace JFernando\PHPValidate;
 class NumberValidator implements Validator
 {
 
-    public function isValid($content, $param) : bool
+    public function isValid($content, $param = '') : bool
     {
-        return !preg_match("/[^0-9]/", $content);
+        if($content === true || $content === false){
+            return false;
+        }
+
+        if(is_int($content)){
+            return true;
+        }
+
+        return preg_match("/\A\d+\z/", $content);
     }
 }

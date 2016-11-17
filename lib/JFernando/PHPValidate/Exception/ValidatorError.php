@@ -39,6 +39,11 @@ class ValidatorError
         return $this->message;
     }
 
+    public function setParams($params){
+        $this->params = $params;
+        return $this;
+    }
+
     public function getParams(){
         return $this->params;
     }
