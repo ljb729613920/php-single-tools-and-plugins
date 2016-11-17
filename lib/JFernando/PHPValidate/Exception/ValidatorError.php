@@ -19,6 +19,13 @@ class ValidatorError
     {
         $this->params = $params;
         $this->code = $code;
+
+        if(count($params) > 0){
+            foreach($params as $key => $val){
+                $message = preg_replace("/#{" . $key ."}/", $key, $message);
+            }
+        }
+
         $this->message = $message;
     }
 
