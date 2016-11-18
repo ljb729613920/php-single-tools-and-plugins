@@ -32,7 +32,7 @@ class ValidateVerifierTest extends TestCase
             ->withCnpj('37.561.502/0001-00')
             ->withCpf('957.274.932-34')
             ->withFone('(69) 3421-3287')
-            ->livesIn(new Cidade('Jipa', 'RO'))
+            ->livesIn(new Cidade('Jipa', 'AC'))
             ->build();
 
         $this->verifier = new ValidatorVerifier(true);
@@ -46,6 +46,13 @@ class ValidateVerifierTest extends TestCase
 
     public function testPessoaWithValidCPF(){
         $this->defaultTest();
+    }
+
+    public function testPessoaWithEstadoInvalido(){
+        $this->pessoa->setCidade(new Cidade('Ji-Parana', 'PR'));
+        $errors = $this->verifier->validate($this->pessoa);
+
+        $this->assertTrue(count($errors) === 1 );
     }
 
     public function testPessoaWithInvalidCPF(){

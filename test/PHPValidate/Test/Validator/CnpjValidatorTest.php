@@ -21,6 +21,8 @@ class CnpjValidatorTest extends TestCase
         $this->assertFalse((new CnpjValidator())->isValid('false'));
         $this->assertFalse((new CnpjValidator())->isValid(''));
         $this->assertFalse((new CnpjValidator())->isValid(null));
+        $this->assertFalse((new CnpjValidator())->isValid(true));
+        $this->assertFalse((new CnpjValidator())->isValid(false));
     }
 
     public function testDeveRetornarVerdade(){

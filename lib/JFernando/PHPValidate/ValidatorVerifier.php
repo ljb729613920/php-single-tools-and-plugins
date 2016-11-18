@@ -86,7 +86,9 @@ class ValidatorVerifier
     private function formatString(string $value, array $params) : string
     {
         foreach ($params as $key => $val) {
-            $value = str_replace("#{{$key}}", strval($val), $value);
+            if(!is_array($val)){
+                $value = str_replace("#{{$key}}", strval($val), $value);
+            }
         }
 
         return $value;

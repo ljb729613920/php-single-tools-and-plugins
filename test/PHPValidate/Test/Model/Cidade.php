@@ -13,6 +13,7 @@ use JFernando\PHPValidate\Annotation\Max;
 use JFernando\PHPValidate\Annotation\Min;
 use JFernando\PHPValidate\Annotation\NotEmpty;
 use JFernando\PHPValidate\Annotation\NotNull;
+use JFernando\PHPValidate\Annotation\Options;
 
 class Cidade
 {
@@ -28,6 +29,7 @@ class Cidade
      * @var string
      * @Min("2")
      * @Max("2")
+     * @Options({"RO", "AC"})
      */
     protected $uf;
 
