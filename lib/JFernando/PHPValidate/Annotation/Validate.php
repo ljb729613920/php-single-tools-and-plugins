@@ -18,5 +18,4 @@ class Validate extends Annotation
     public $message = 'Field #{field} of #{class} is not valid!';
     public $code = 'field_#{field}_of_#{class}_invalid';
     public $isClass = false;
-    public $param = '';
 }

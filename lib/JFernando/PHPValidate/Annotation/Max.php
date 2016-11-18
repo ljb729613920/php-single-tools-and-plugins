@@ -8,6 +8,7 @@
 
 namespace JFernando\PHPValidate\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\Required;
 use Doctrine\Common\Annotations\Annotation\Target;
 use JFernando\PHPValidate\MaxValidator;
 
@@ -21,5 +22,10 @@ use JFernando\PHPValidate\MaxValidator;
 class Max extends Validate
 {
     public $validator = MaxValidator::class;
-    public $param = INF;
+
+    /**
+     * @var int
+     * @Required()
+     */
+    public $value;
 }

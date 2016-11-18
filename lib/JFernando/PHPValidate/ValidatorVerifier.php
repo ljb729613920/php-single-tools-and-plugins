@@ -59,7 +59,7 @@ class ValidatorVerifier
 
             /** @var Validator $validator */
             $validator = new $annotation->validator;
-            $isValid = $validator->isValid($fieldValue, $annotation->param);
+            $isValid = $validator->isValid($fieldValue, $annotation->value);
 
             if (!$isValid) {
                 $exceptions[] = $this->getNotValidError($annotation, $prop, $reflectedClass, $args);

@@ -8,6 +8,7 @@
 
 namespace JFernando\PHPValidate\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\Required;
 use Doctrine\Common\Annotations\Annotation\Target;
 use JFernando\PHPValidate\NumberValidator;
 
@@ -21,4 +22,10 @@ use JFernando\PHPValidate\NumberValidator;
 class Number extends Validate
 {
     public $validator = NumberValidator::class;
+
+    /**
+     * @var int
+     * @Required()
+     */
+    public $value;
 }

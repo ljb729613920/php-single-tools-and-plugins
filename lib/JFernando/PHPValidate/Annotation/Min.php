@@ -8,6 +8,7 @@
 
 namespace JFernando\PHPValidate\Annotation;
 
+use Doctrine\Common\Annotations\Annotation\Required;
 use JFernando\PHPValidate\MinValidator;
 use Doctrine\Common\Annotations\Annotation\Target;
 
@@ -21,5 +22,10 @@ use Doctrine\Common\Annotations\Annotation\Target;
 class Min extends Validate
 {
     public $validator = MinValidator::class;
-    public $param = -INF;
+
+    /**
+     * @var int
+     * @Required()
+     */
+    public $value;
 }

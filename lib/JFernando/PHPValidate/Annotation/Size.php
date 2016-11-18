@@ -28,5 +28,5 @@ class Size extends Validate
      * @var int
      * @Required()
      */
-    public $param;
+    public $value;
 }

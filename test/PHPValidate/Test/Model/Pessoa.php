@@ -21,8 +21,8 @@ class Pessoa
 {
     /**
      * @var string
-     * @Min(param="3")
-     * @Max(param="80")
+     * @Min(3)
+     * @Max(80)
      * @NotEmpty()
      * @NotNull()
      */
@@ -30,7 +30,7 @@ class Pessoa
 
     /**
      * @var string
-     * @Regex(param="/\A\(\d{2}\) \d{4}-\d{4}\z/")
+     * @Regex("/\A\(\d{2}\) \d{4}-\d{4}\z/")
      */
     protected $fone;
 

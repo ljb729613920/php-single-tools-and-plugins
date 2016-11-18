@@ -26,8 +26,8 @@ class Cidade
 
     /**
      * @var string
-     * @Min(param="2")
-     * @Max(param="2")
+     * @Min("2")
+     * @Max("2")
      */
     protected $uf;
 

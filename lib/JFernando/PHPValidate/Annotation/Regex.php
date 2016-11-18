@@ -29,5 +29,5 @@ class Regex extends Validate
      * @var string
      * @Required()
      */
-    public $param = '/.*/';
+    public $value;
 }
