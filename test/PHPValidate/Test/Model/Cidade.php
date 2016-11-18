@@ -27,9 +27,9 @@ class Cidade
 
     /**
      * @var string
-     * @Min("2")
-     * @Max("2")
-     * @Options({"RO", "AC"})
+     * @Min("2", skipBlank=true)
+     * @Max("2", skipBlank=true)
+     * @Options({"RO", "AC"}, skipBlank=true)
      */
     protected $uf;
 

@@ -17,5 +17,9 @@ class Validate extends Annotation
     public $validator = DefaultValidator::class;
     public $message = 'Field #{field} of #{class} is not valid!';
     public $code = 'field_#{field}_of_#{class}_invalid';
+
     public $isClass = false;
+    public $skipBlank = false;
+    public $skipNull = false;
+    public $skipEmpty = false;
 }

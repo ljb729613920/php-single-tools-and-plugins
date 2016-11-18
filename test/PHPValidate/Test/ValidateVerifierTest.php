@@ -55,6 +55,13 @@ class ValidateVerifierTest extends TestCase
         $this->assertTrue(count($errors) === 1 );
     }
 
+    public function testPessoaWithEstadoEmBranco(){
+        $this->pessoa->setCidade(new Cidade('Ji-Parana', ''));
+        $errors = $this->verifier->validate($this->pessoa);
+
+        $this->assertTrue(count($errors) === 0 );
+    }
+
     public function testPessoaWithInvalidCPF(){
         $this->pessoa->setCpf('123.456.789-00');
         $errors = $this->verifier->validate($this->pessoa);
