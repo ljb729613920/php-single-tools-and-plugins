@@ -10,6 +10,7 @@ namespace JFernando\PHPValidate;
 
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Inflector\Inflector;
+use JFernando\PHPValidate\Annotation\Params;
 use JFernando\PHPValidate\Annotation\Validate;
 
 class ValidatorVerifier
@@ -78,6 +79,16 @@ class ValidatorVerifier
 
             /** @var Validator $validator */
             $validator = new $annotation->validator;
+
+            $reflectedAnnot = new \ReflectionClass($validator);
+            $reader = new AnnotationReader();
+            foreach ($reflectedAnnot->getProperties() as $propAnnot){
+                if($reader->getPropertyAnnotation($propAnnot, Params::class) !== null){
+                    $propAnnot->setAccessible(true);
+                    $propAnnot->setValue($validator, ['object', $entity]);
+                }
+            }
+
             $isValid = $validator->isValid($fieldValue, $annotation->value);
 
             if (!$isValid) {
