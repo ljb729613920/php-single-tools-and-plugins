@@ -16,6 +16,7 @@ use JFernando\PHPValidate\Annotation\NotEmpty;
 use JFernando\PHPValidate\Annotation\NotNull;
 use JFernando\PHPValidate\Annotation\Regex;
 use JFernando\PHPValidate\Annotation\Validate;
+use JFernando\PHPValidate\Transform\Annotation\OnlyNumber;
 
 class Pessoa
 {
@@ -31,18 +32,21 @@ class Pessoa
     /**
      * @var string
      * @Regex("/\A\(\d{2}\) \d{4}-\d{4}\z/")
+     * @OnlyNumber()
      */
     protected $fone;
 
     /**
      * @var string
      * @CNPJ()
+     * @OnlyNumber()
      */
     protected $cnpj;
 
     /**
      * @var string
      * @CPF()
+     * @OnlyNumber()
      */
     protected $cpf;
 
