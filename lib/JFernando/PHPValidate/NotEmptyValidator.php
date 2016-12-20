@@ -25,6 +25,10 @@ class NotEmptyValidator implements Validator
             return count($content) > 0;
         }
 
-        return $content > 0;
+        if(is_numeric($content)){
+            return $content > 0;
+        }
+
+        return is_object($content);
     }
 }
