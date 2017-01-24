@@ -119,11 +119,28 @@ class ValidatorVerifier
     {
         foreach ($params as $key => $val) {
             if(!is_array($val)){
+                if(is_object($val)) {
+                    if(get_class($val) === \DateTime::class){
+                        $value = str_replace("#{{$key}}", $val->format('dmY'), $value);
+                        continue;
+                    }
+
+                    $classMethods = get_class_methods($val);
+
+                    foreach ( $classMethods as $method ) {
+                        if($method == '__toString'){
+                            $value = str_replace("#{{$key}}", $val->__toString(), $value);
+                            continue;
+                        }
+                    }
+                    continue;
+                }
                 $value = str_replace("#{{$key}}", strval($val), $value);
             }
         }
 
         return $value;
+
     }
 
     private function getAnnotationFields($annotation) : array
