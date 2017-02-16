@@ -22,4 +22,5 @@ class Validate extends Annotation
     public $skipBlank = false;
     public $skipNull = false;
     public $skipEmpty = false;
+    public $skipIf = false;
 }

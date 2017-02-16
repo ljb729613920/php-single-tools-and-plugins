@@ -12,6 +12,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Inflector\Inflector;
 use JFernando\PHPValidate\Annotation\Params;
 use JFernando\PHPValidate\Annotation\Validate;
+use JFernando\PHPValidate\Utils\Reflection;
 
 class ValidatorVerifier
 {
@@ -36,7 +37,7 @@ class ValidatorVerifier
             foreach ($annotations as $annotation) {
                 $annotationClass = new \ReflectionClass($annotation);
 
-                if ($this->isValidAnnotation($annotationClass) && !$this->isSkipped($annotation, $entity, $prop, $reflectedClass)) {
+                if ($this->isValidAnnotation($annotationClass) && !$this->isSkipped($annotation, $entity, $prop, $reflectedClass, $args)) {
                     $validationErrors = $this->validateAnnotation($annotation, $prop, $reflectedClass, $entity, $args);
                     $exceptions = array_merge($exceptions, $validationErrors);
                 }
@@ -46,7 +47,7 @@ class ValidatorVerifier
         return $exceptions;
     }
 
-    private function isSkipped($annotation, $entity, \ReflectionProperty $prop, $class){
+    private function isSkipped($annotation, $entity, \ReflectionProperty $prop, $class, $args){
         $value = $this->getValueFrom($prop, $class, $entity);
 
         if(is_null($value) && $annotation->skipNull){
@@ -58,6 +59,10 @@ class ValidatorVerifier
         }
 
         if((is_array($value) && count($value) === 0) && $annotation->skipEmpty){
+            return true;
+        }
+
+        if($annotation->skipIf && $this->isSkipIf($annotation->skipIf, $value, $args)){
             return true;
         }
 
@@ -180,5 +185,11 @@ class ValidatorVerifier
     private function isValidAnnotation(\ReflectionClass $annotationClass)
     {
         return ($annotationClass->getName() == Validate::class) || ($annotationClass->isSubclassOf(Validate::class));
+    }
+
+    private function isSkipIf( $class, $value, $args = [] ) {
+        $instance = new Reflection($class);
+        $instance = $instance->newInstanceWithoutConstructor();
+        return $instance->isValid($value, $args);
     }
 }
