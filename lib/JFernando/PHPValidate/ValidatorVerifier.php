@@ -88,9 +88,18 @@ class ValidatorVerifier
             $reflectedAnnot = new \ReflectionClass($validator);
             $reader = new AnnotationReader();
             foreach ($reflectedAnnot->getProperties() as $propAnnot){
-                if($reader->getPropertyAnnotation($propAnnot, Params::class) !== null){
+                /** @var Params $paramAnnot */
+                $paramAnnot = $reader->getPropertyAnnotation($propAnnot, Params::class);
+                if($paramAnnot !== null){
+                    $args = array_merge($args, ['object' => $entity]);
                     $propAnnot->setAccessible(true);
-                    $propAnnot->setValue($validator, ['object' => $entity]);
+
+                    if($paramAnnot->value){
+                        $propAnnot->setValue($validator, $args[$paramAnnot->value] ?? null);
+                        continue;
+                    }
+
+                    $propAnnot->setValue($validator, $args);
                 }
             }
 

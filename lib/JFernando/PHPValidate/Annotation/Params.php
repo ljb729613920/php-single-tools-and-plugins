@@ -21,4 +21,5 @@ use Doctrine\Common\Annotations\Annotation\Target;
  */
 class Params extends Annotation
 {
+    public $value = false;
 }
