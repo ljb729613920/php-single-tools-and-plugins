@@ -126,6 +126,8 @@ class ValidatorVerifier
         $annotation->code = $this->formatString($annotation->code, $annotationFields);
         $annotation->message = $this->formatString($annotation->message, $annotationFields);
 
+        $args = array_merge($args, $annotationFields);
+
         return new $annotation->errors($annotation->code, $annotation->message, $args);
     }
 
