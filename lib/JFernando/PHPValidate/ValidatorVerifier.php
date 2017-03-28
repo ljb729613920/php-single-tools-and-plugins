@@ -135,7 +135,7 @@ class ValidatorVerifier
         $annotationFields = array_merge( $annotationFields, $args );
 
         $annotation->code    = $this->formatString( $annotation->code, $annotationFields );
-        $annotation->message = $this->formatString( $annotation->message, $annotationFields );
+        $annotation->message = $this->messages->get($annotation->code, $this->formatString( $annotation->message, $annotationFields ));
 
         $args = array_merge( $args, $annotationFields );
 
@@ -144,7 +144,6 @@ class ValidatorVerifier
 
     private function formatString( string $value, array $params ) : string
     {
-        $value = $this->messages->get($params['code'], $value);
         foreach ( $params as $key => $val ) {
             if ( !is_array( $val ) ) {
                 if ( is_object( $val ) ) {
