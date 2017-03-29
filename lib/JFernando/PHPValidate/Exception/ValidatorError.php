@@ -52,11 +52,8 @@ class ValidatorError
         $this->params[] = $param;
     }
 
-    public function getParam(string $key){
-        if($this->params[$key]){
-            return $this->params[$key];
-        }
-        return null;
+    public function getParam(string $key, $default = null){
+        return $this->params[$key] ?? $default;
     }
 
     public function __toString()
