@@ -42,6 +42,17 @@ class ValidatorVerifier
         foreach ( $reflectedClass->getProperties() as $prop ) {
             $annotations = $reader->getPropertyAnnotations( $prop );
 
+            /** @var Params|null $paramsAnnot */
+            $paramsAnnot = $reader->getPropertyAnnotation($prop, Params::class);
+            if($paramsAnnot){
+                $name = $prop->getName();
+                if($paramsAnnot->value){
+                    $name = $paramsAnnot->value;
+                }
+
+                $args = array_merge($args, [$name => $this->getValueFrom($prop, $reflectedClass, $entity)]);
+            }
+
             /** @var Validate $annotation */
             foreach ( $annotations as $annotation ) {
                 $annotationClass = new \ReflectionClass( $annotation );
@@ -135,11 +146,10 @@ class ValidatorVerifier
         $annotationFields = array_merge( $annotationFields, $args );
 
         $annotation->code    = $this->formatString( $annotation->code, $annotationFields );
-        $annotation->message = $this->messages->get($annotation->code, $this->formatString( $annotation->message, $annotationFields ));
+        $annotation->message = $this->messages->get($annotation->code, $annotation->message);
+        $annotation->message = $this->formatString( $annotation->message, $annotationFields);
 
-        $args = array_merge( $args, $annotationFields );
-
-        return new $annotation->errors( $annotation->code, $annotation->message, $args );
+        return new $annotation->errors( $annotation->code, $annotation->message, $annotationFields );
     }
 
     private function formatString( string $value, array $params ) : string
