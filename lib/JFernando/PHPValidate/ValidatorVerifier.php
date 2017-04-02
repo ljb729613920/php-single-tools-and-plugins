@@ -83,7 +83,7 @@ class ValidatorVerifier
             return true;
         }
 
-        if ( $annotation->skipIf && $this->isSkipIf( $annotation->skipIf, $value, $args ) ) {
+        if ( $annotation->skipIf && $this->isSkipIf( $annotation->skipIf, $entity, $value, $args ) ) {
             return true;
         }
 
@@ -107,23 +107,7 @@ class ValidatorVerifier
             /** @var Validator $validator */
             $validator = new $annotation->validator;
 
-            $reflectedAnnot = new \ReflectionClass( $validator );
-            $reader         = new AnnotationReader();
-            foreach ( $reflectedAnnot->getProperties() as $propAnnot ) {
-                /** @var Params $paramAnnot */
-                $paramAnnot = $reader->getPropertyAnnotation( $propAnnot, Params::class );
-                if ( $paramAnnot !== null ) {
-                    $args = array_merge( $args, [ 'object' => $entity ] );
-                    $propAnnot->setAccessible( true );
-
-                    if ( $paramAnnot->value ) {
-                        $propAnnot->setValue( $validator, $args[ $paramAnnot->value ] ?? null );
-                        continue;
-                    }
-
-                    $propAnnot->setValue( $validator, $args );
-                }
-            }
+            $args = $this->injectParams( $entity, $args, $validator );
 
             $isValid = $validator->isValid( $fieldValue, $annotation->value );
 
@@ -218,11 +202,41 @@ class ValidatorVerifier
         return ( $annotationClass->getName() == Validate::class ) || ( $annotationClass->isSubclassOf( Validate::class ) );
     }
 
-    private function isSkipIf( $class, $value, $args = [] )
+    private function isSkipIf( $class, $entity, $value, $args = [] )
     {
         $instance = new Reflection( $class );
         $instance = $instance->newInstanceWithoutConstructor();
 
+        $this->injectParams($entity, $args, $instance);
+
         return $instance->isValid( $value, $args );
+    }
+
+    /**
+     * @param $entity
+     * @param $args
+     * @param $validator
+     * @return array
+     */
+    private function injectParams( $entity, $args, $validator )
+    {
+        $reflectedAnnot = new \ReflectionClass( $validator );
+        $reader = new AnnotationReader();
+        foreach ( $reflectedAnnot->getProperties() as $propAnnot ) {
+            /** @var Params $paramAnnot */
+            $paramAnnot = $reader->getPropertyAnnotation( $propAnnot, Params::class );
+            if ( $paramAnnot !== null ) {
+                $args = array_merge( $args, [ 'object' => $entity ] );
+                $propAnnot->setAccessible( true );
+
+                if ( $paramAnnot->value ) {
+                    $propAnnot->setValue( $validator, $args[ $paramAnnot->value ] ?? null );
+                    continue;
+                }
+
+                $propAnnot->setValue( $validator, $args );
+            }
+        }
+        return $args;
     }
 }
