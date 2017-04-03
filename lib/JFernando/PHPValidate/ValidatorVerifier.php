@@ -225,7 +225,7 @@ class ValidatorVerifier
             /** @var Params $paramAnnot */
             $paramAnnot = $reader->getPropertyAnnotation( $propAnnot, Params::class );
             if ( $paramAnnot !== null ) {
-                $args = array_merge( $args, [ 'object' => $entity ] );
+                $args = array_merge( $args, [ 'object' => $entity, 'validatorArgs' => $valArgs ] );
                 $propAnnot->setAccessible( true );
 
                 if ( $paramAnnot->value ) {
