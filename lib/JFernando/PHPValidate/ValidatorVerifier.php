@@ -14,6 +14,7 @@ use JFernando\PHPValidate\Annotation\Params;
 use JFernando\PHPValidate\Annotation\Validate;
 use JFernando\PHPValidate\Utils\Messages;
 use JFernando\PHPValidate\Utils\Reflection;
+use JFernando\PHPValidate\Utils\ValidatorArgs;
 
 class ValidatorVerifier
 {
@@ -22,12 +23,12 @@ class ValidatorVerifier
 
     public function __construct( bool $byGet = true, Messages $messages = null )
     {
-        $this->byGet    = $byGet;
+        $this->byGet = $byGet;
 
-        if($messages){
+        if ( $messages ) {
             $this->messages = $messages;
         } else {
-            $this->messages = new Messages([]);
+            $this->messages = new Messages( [] );
         }
 
     }
@@ -43,14 +44,14 @@ class ValidatorVerifier
             $annotations = $reader->getPropertyAnnotations( $prop );
 
             /** @var Params|null $paramsAnnot */
-            $paramsAnnot = $reader->getPropertyAnnotation($prop, Params::class);
-            if($paramsAnnot){
+            $paramsAnnot = $reader->getPropertyAnnotation( $prop, Params::class );
+            if ( $paramsAnnot ) {
                 $name = $prop->getName();
-                if($paramsAnnot->value){
+                if ( $paramsAnnot->value ) {
                     $name = $paramsAnnot->value;
                 }
 
-                $args = array_merge($args, [$name => $this->getValueFrom($prop, $reflectedClass, $entity)]);
+                $args = array_merge( $args, [ $name => $this->getValueFrom( $prop, $reflectedClass, $entity ) ] );
             }
 
             /** @var Validate $annotation */
@@ -109,11 +110,13 @@ class ValidatorVerifier
 
             $reflectedAnnot = new \ReflectionClass( $validator );
             $reader         = new AnnotationReader();
+            $valArgs        = new ValidatorArgs();
+            $valArgs->addAll($args);
             foreach ( $reflectedAnnot->getProperties() as $propAnnot ) {
                 /** @var Params $paramAnnot */
                 $paramAnnot = $reader->getPropertyAnnotation( $propAnnot, Params::class );
                 if ( $paramAnnot !== null ) {
-                    $args = array_merge( $args, [ 'object' => $entity ] );
+                    $args = array_merge( $args, [ 'object' => $entity, 'validatorArgs' => $valArgs ] );
                     $propAnnot->setAccessible( true );
 
                     if ( $paramAnnot->value ) {
@@ -127,6 +130,7 @@ class ValidatorVerifier
 
             $isValid = $validator->isValid( $fieldValue, $annotation->value );
 
+            $args = array_merge($args, $valArgs->getArgs());
             $args[ 'propValue' ] = $fieldValue;
 
             if ( !$isValid ) {
@@ -146,8 +150,8 @@ class ValidatorVerifier
         $annotationFields = array_merge( $annotationFields, $args );
 
         $annotation->code    = $this->formatString( $annotation->code, $annotationFields );
-        $annotation->message = $this->messages->get($annotation->code, $annotation->message);
-        $annotation->message = $this->formatString( $annotation->message, $annotationFields);
+        $annotation->message = $this->messages->get( $annotation->code, $annotation->message );
+        $annotation->message = $this->formatString( $annotation->message, $annotationFields );
 
         return new $annotation->errors( $annotation->code, $annotation->message, $annotationFields );
     }
