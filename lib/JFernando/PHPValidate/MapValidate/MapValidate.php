@@ -11,16 +11,19 @@ namespace JFernando\PHPValidate\MapValidate;
 
 use JFernando\PHPValidate\DefaultValidator;
 use JFernando\PHPValidate\Exception\ValidatorError;
+use JFernando\PHPValidate\Utils\Messages;
 use JFernando\PHPValidate\Validator;
 
 class MapValidate
 {
 
     protected $config;
+    protected $messages;
 
-    public function __construct( array $config )
+    public function __construct( array $config, Messages $messages = null )
     {
         $this->config = $config;
+        $this->messages = $messages;
     }
 
     public function validate( array $params )
@@ -34,6 +37,10 @@ class MapValidate
             $parameters = $item[ 'params' ]  ?? [];
             $valueParam = $item[ 'value' ] ?? '';
             $value      = $params[ $key ] ?? null;
+
+            if ($this->messages){
+                $message = $this->messages->get($code, $message);
+            }
 
             if ( $value === null && $required ) {
                 $erros[] = new ValidatorError( $code, $message, $parameters );
