@@ -22,7 +22,7 @@ class ValidatorError
 
         if(count($params) > 0){
             foreach($params as $key => $val){
-                $message = preg_replace("/#{" . $key ."}/", $key, $message);
+                $message = preg_replace("/#{" . $key ."}/", $this->format($val), $message);
             }
         }
 
@@ -59,5 +59,25 @@ class ValidatorError
     public function __toString()
     {
         return '{"code" : "' . $this->getCode()  . '", "message" : "' . $this->getMessage() .'"}';
+    }
+
+    private function format( $val ) {
+        if(is_object($val)){
+            if(method_exists($val, '__toString')){
+                return $val->__toString();
+            }
+
+            if($val instanceof \DateTime){
+                return $val->format('d/m/Y');
+            }
+
+            return '';
+        }
+
+        if(is_array($val)){
+            return '';
+        }
+
+        return (string) $val;
     }
 }
