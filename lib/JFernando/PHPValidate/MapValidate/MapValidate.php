@@ -29,8 +29,8 @@ class MapValidate
         foreach ( $this->config as $key => $item ) {
             $required   = $item[ 'required' ] ?? false;
             $validate   = $item[ 'validator' ] ?? new DefaultValidator();
-            $code       = $item[ 'code' ] ?? "field_${$key}_invalid";
-            $message    = $item[ 'message' ] ?? "Field ${$key} is not valid";
+            $code       = $item[ 'code' ] ?? "field_${key}_invalid";
+            $message    = $item[ 'message' ] ?? "Field ${key} is not valid";
             $parameters = $item[ 'params' ]  ?? [];
             $valueParam = $item[ 'value' ] ?? '';
             $value      = $params[ $key ] ?? null;
