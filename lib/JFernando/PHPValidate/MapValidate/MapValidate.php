@@ -71,6 +71,8 @@ class MapValidate
                     $instance = $class->newInstanceWithoutConstructor();
                     if(!$instance->isValid($value, $valueParam)){
                         $erros[] = new ValidatorError( $code, $message, $parameters );
+
+                        continue;
                     }
                 }
             }
@@ -79,6 +81,7 @@ class MapValidate
                 if ( !$validate( $value, $valueParam, $parameters ) ) {
                     $erros[] = new ValidatorError( $code, $message, $parameters );
                 }
+
                 continue;
             }
         }
