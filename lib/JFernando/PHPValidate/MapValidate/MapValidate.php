@@ -11,6 +11,7 @@ namespace JFernando\PHPValidate\MapValidate;
 
 use JFernando\PHPValidate\DefaultValidator;
 use JFernando\PHPValidate\Exception\ValidatorError;
+use JFernando\PHPValidate\Exception\ValidatorException;
 use JFernando\PHPValidate\Utils\Messages;
 use JFernando\PHPValidate\Utils\Reflection;
 use JFernando\PHPValidate\Validator;
@@ -89,4 +90,17 @@ class MapValidate
         return $erros;
     }
 
+    public function isValid( array $params ){
+        $erros = $this->validate($params);
+
+        return count($erros) > 0;
+    }
+
+    public function validateError(array $params){
+        $erros = $this->validate($params);
+
+        if(count($erros) > 0){
+            throw new ValidatorException($erros);
+        }
+    }
 }

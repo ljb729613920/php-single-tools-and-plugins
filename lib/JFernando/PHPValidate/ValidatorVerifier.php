@@ -12,6 +12,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Inflector\Inflector;
 use JFernando\PHPValidate\Annotation\Params;
 use JFernando\PHPValidate\Annotation\Validate;
+use JFernando\PHPValidate\Exception\ValidatorException;
 use JFernando\PHPValidate\Utils\Messages;
 use JFernando\PHPValidate\Utils\Reflection;
 use JFernando\PHPValidate\Utils\ValidatorArgs;
@@ -67,6 +68,21 @@ class ValidatorVerifier
 
         return $exceptions;
     }
+
+    public function isValid( $entity, $args = []){
+        $erros = $this->validate($entity, $args);
+
+        return count($erros) > 0;
+    }
+
+    public function validateError( $entity, $args = []){
+        $erros = $this->validate($entity, $args);
+
+        if(count($erros) > 0){
+            throw new ValidatorException($erros);
+        }
+    }
+
 
     private function isSkipped( $annotation, $entity, \ReflectionProperty $prop, $class, $args )
     {
