@@ -38,6 +38,10 @@ class CpfValidator implements Validator
 
     private function validate($content)
     {
+        if($this->isEveryEquals($content)) {
+            return false;
+        };
+
         $inicio = substr($content, 0, 9);
         $fim = substr($content, 9, strlen($content));
 
@@ -72,5 +76,22 @@ class CpfValidator implements Validator
         }
 
         return $verificador === (11 - $resto);
+    }
+
+    private function isEveryEquals( $content )
+    {
+        $quantity = 0;
+        $anterior = null;
+        for($i = 0; $i < strlen($content); $i++) {
+            if(!$anterior) {
+                $anterior = $content[$i];
+            }
+
+            if (($content[$i]) === $anterior) {
+                $quantity++;
+            }
+        }
+
+        return ($quantity === strlen($content));
     }
 }

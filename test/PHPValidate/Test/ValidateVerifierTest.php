@@ -8,6 +8,8 @@
 
 namespace PHPValidate\Test;
 
+use JFernando\PHPValidate\CnpjValidator;
+use JFernando\PHPValidate\CpfValidator;
 use JFernando\PHPValidate\ValidatorVerifier;
 use PHPValidate\Test\Builder\PessoaBuilder;
 use PHPValidate\Test\Model\Cidade;
@@ -42,6 +44,20 @@ class ValidateVerifierTest extends TestCase
         $errors = $this->verifier->validate($this->pessoa);
 
         $this->assertTrue(count($errors) === 0 );
+    }
+
+    public function testCpfIgual() {
+        $validator = new CpfValidator();
+        $this->assertFalse($validator->isValid('11111111111'));
+        $this->assertFalse($validator->isValid('22222222222'));
+        $this->assertFalse($validator->isValid('33333333333'));
+    }
+
+    public function testCnpjIgual() {
+        $validator = new CnpjValidator();
+        $this->assertFalse($validator->isValid('11111111111'));
+        $this->assertFalse($validator->isValid('22222222222'));
+        $this->assertFalse($validator->isValid('33333333333'));
     }
 
     public function testPessoaWithValidCPF(){
