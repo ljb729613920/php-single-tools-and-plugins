@@ -9,6 +9,7 @@
 namespace JFernando\PHPValidate\Schema;
 
 
+use JFernando\PHPValidate\NotNullValidator;
 use JFernando\PHPValidate\Utils\ArrayUtil;
 use JFernando\PHPValidate\Validator;
 
@@ -23,15 +24,20 @@ class PipeValidation extends Validation
         $this->validations = $validations;
     }
 
+    public function required($params = [])
+    {
+        return $this->pipe(new NotNullValidator(), $params);
+    }
+
     public function pipe($validation, $params = []) {
         if ($validation instanceof Validation || is_callable($validation)) {
             $this->validations[] = $validation;
-            return;
+            return $this;
         }
 
         if($validation instanceof Validator) {
             $this->pipe(new ValidationAdapter($params, $validation));
-            return;
+            return $this;
         }
 
         throw new \InvalidArgumentException('Invalid validation');

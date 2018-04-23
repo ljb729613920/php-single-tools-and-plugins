@@ -21,4 +21,23 @@ class Schema extends PipeValidation
         return new Params($data);
     }
 
+    public static function schema(array $schema)
+    {
+        return new SchemaValidation($schema);
+    }
+
+    public static function string($params = []) {
+        return new StringPipeValidator($params);
+    }
+
+    public static function integer($params = [])
+    {
+        return new IntegerPipeValidation($params);
+    }
+
+    public static function collection($params = [])
+    {
+        return new ArrayPipeValidation($params);
+    }
+
 }

@@ -1,23 +1,24 @@
 <?php
 /**
- * Created by PhpStorm.
+ * Created by CredisisTEAM.
  * User: jfernando
- * Date: 4/23/18
- * Time: 1:54 PM
+ * Date: 23/04/18
+ * Time: 16:51
  */
 
 namespace JFernando\PHPValidate\Schema;
 
 
+use JFernando\PHPValidate\IntegerValidator;
 use JFernando\PHPValidate\MaxValidator;
 use JFernando\PHPValidate\MinValidator;
-use JFernando\PHPValidate\StringValidator;
 
-class StringPipeValidator extends PipeValidation
+class IntegerPipeValidation extends PipeValidation
 {
+
     public function __construct( array $params )
     {
-        $stringValidator = new ValidationAdapter($params, new StringValidator());
+        $stringValidator = new ValidationAdapter($params, new IntegerValidator());
         parent::__construct( [$stringValidator]);
     }
 
@@ -33,5 +34,10 @@ class StringPipeValidator extends PipeValidation
         $params['param'] = $max;
         $minValidation = new MaxValidator();
         return $this->pipe($minValidation, $params);
+    }
+
+    public function isValid( $content, $param ): bool
+    {
+        throw new \BadMethodCallException('not implemented');
     }
 }

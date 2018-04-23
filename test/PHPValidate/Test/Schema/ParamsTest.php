@@ -22,7 +22,10 @@ class ParamsTest extends TestCase
 
         $params = new Params($data);
 
-        Assert::assertArrayHasKey('endereco', $params->only(['endereco']));
+        $data = $params->only(['endereco']);
+
+        $this->assertArrayHasKey('endereco', $data);
+        $this->assertArrayNotHasKey('nome', $data);
     }
 
 }

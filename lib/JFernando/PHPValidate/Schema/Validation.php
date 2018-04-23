@@ -24,7 +24,7 @@ abstract class Validation implements Validator
     public function validate($field, $value)
     {
         $params = $this->params;
-        $code = $params['code'] ?? "field_'${field}'_invalid";
+        $code = $params['code'] ?? "field_${field}_invalid";
         $message = $params['message'] ?? "Field '${field}' invalid";
         $required = $params['required'] ?? true;
         $param = $params['param'] ?? [];
