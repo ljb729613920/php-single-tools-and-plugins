@@ -48,7 +48,7 @@ class Schema extends PipeValidation
     public static function pipeline($validator, $params = [])
     {
         $params['code'] = $params['code'] ?? 'pipeline';
-        return new PipeValidation([new ValidationAdapter($params, $validator)]);
+        return (new PipeValidation([]))->pipe($validator, $params);
     }
 
     public static function numeric($params = [])
