@@ -24,11 +24,6 @@ class PipeValidation extends Validation
         $this->validations = $validations;
     }
 
-    public function required($params = [])
-    {
-        return $this->pipe(new NotNullValidator(), $params);
-    }
-
     public function pipe($validation, $params = []) {
         if ($validation instanceof Validation || is_callable($validation)) {
             $this->validations[] = $validation;
@@ -46,6 +41,10 @@ class PipeValidation extends Validation
     public function validate($field, $value)
     {
         $util = new ArrayUtil($this->validations);
+
+        if($value === null && !$this->required) {
+            return [];
+        }
 
         return $util
             ->map(function($validator) use ($field, $value) {

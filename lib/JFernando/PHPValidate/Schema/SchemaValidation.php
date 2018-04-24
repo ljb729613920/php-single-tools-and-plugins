@@ -26,6 +26,10 @@ class SchemaValidation extends Validation
     {
         $util = new ArrayUtil($this->schema);
 
+        if(!$this->required && $value === null) {
+            return [];
+        }
+
         return $util
             ->map(function(Validation $validation, $key) use ($value) {
                 return $validation->validate($key, $value[$key] ?? null);

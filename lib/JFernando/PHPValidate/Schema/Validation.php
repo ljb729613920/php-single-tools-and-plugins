@@ -15,10 +15,19 @@ abstract class Validation implements Validator
 {
 
     protected $params;
+    protected $required;
 
     public function __construct(array $params)
     {
         $this->params = $params;
+        $this->required = true;
+    }
+
+    public function required($required = true)
+    {
+        $this->required = $required;
+
+        return $this;
     }
 
     public function validate($field, $value)
@@ -26,7 +35,7 @@ abstract class Validation implements Validator
         $params = $this->params;
         $code = $params['code'] ?? "field_${field}_invalid";
         $message = $params['message'] ?? "Field '${field}' invalid";
-        $required = $params['required'] ?? true;
+        $required = $params['required'] ?? $this->required;
         $param = $params['param'] ?? [];
         $others = $params['params'] ?? [];
 

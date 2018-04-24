@@ -18,12 +18,12 @@ class SchemaTest extends TestCase
 
     public function testSchemaValidation() {
         $data = [
-            'nome' => 'Jorge Fernando',
-            'cpfCnpj' => '95727493234',
-            'endereco' => [
-                'logradouro' => 'Rua saõ paulp kahdk akdjas',
-                'numero' => 32
-            ],
+//            'nome' => 'Jorge Fernando',
+//            'cpfCnpj' => '95727493234',
+//            'endereco' => [
+//                'logradouro' => 'Rua saõ paulp kahdk akdjas',
+//                'numero' => 32
+//            ],
             'representantes' => [
                 [
                     'nsome' => 'Jose'
@@ -35,18 +35,18 @@ class SchemaTest extends TestCase
         var_dump($data);
 
         $schema = Schema::schema([
-            'nome' => Schema::string(['code' => 'wow'])->min(10, ['code' => 'wow2'])->required(['code' => 'wow3']),
-            'cpfCnpj' => Schema::string()->pipe(new CpfCnpjValidator(), ['code' => 'bemlokoessecpf']),
+            'nome' => Schema::string(['code' => 'wow'])->min(10, ['code' => 'wow2'])->required(false),
+            'cpfCnpj' => Schema::string()->pipe(new CpfCnpjValidator(), ['code' => 'bemlokoessecpf'])->required(false),
             'endereco' => Schema::schema([
                 'logradouro' => Schema::string()->min(10),
                 'numero' => Schema::integer()->min(10)->max(50)
-            ]),
+            ])->required(true),
             'representantes' => Schema::collection()->min(1)->schema([
                 'nome' => Schema::string()->required()
             ], ['code' => 'invalid_schema'])
         ]);
 
-        var_dump($schema->getErrors($data)->getErrorsOfField('representantes'));
+        var_dump($schema->getErrors($data));
 
     }
 
