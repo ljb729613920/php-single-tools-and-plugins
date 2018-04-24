@@ -37,7 +37,7 @@ abstract class Validation implements Validator
         $message = $params['message'] ?? "Field '${field}' invalid";
         $required = $params['required'] ?? $this->required;
         $param = $params['param'] ?? [];
-        $others = $params['params'] ?? [];
+        $others = $params;
 
         if(!$required && $value === null) {
             return false;
