@@ -23,6 +23,7 @@ class StringPipeValidator extends PipeValidation
 
     public function min(int $min, $params = [])
     {
+        $params['code'] = $params['code'] ?? 'string.min';
         $params['param'] = $min;
         $minValidation = new MinValidator();
         return $this->pipe($minValidation, $params);
@@ -30,6 +31,7 @@ class StringPipeValidator extends PipeValidation
 
     public function max(int $max, $params = [])
     {
+        $params['code'] = $params['code'] ?? 'string.max';
         $params['param'] = $max;
         $minValidation = new MaxValidator();
         return $this->pipe($minValidation, $params);

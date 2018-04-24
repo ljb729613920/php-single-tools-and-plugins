@@ -24,6 +24,7 @@ class ArrayPipeValidation extends PipeValidation
 
     public function min(int $min, $params = [])
     {
+        $params['code'] = $params['code'] ?? 'array.min';
         $params['param'] = $min;
         $minValidation = new MinValidator();
         return $this->pipe($minValidation, $params);
@@ -31,6 +32,7 @@ class ArrayPipeValidation extends PipeValidation
 
     public function max(int $max, $params = [])
     {
+        $params['code'] = $params['code'] ?? 'array.max';
         $params['param'] = $max;
         $maxValidation = new MaxValidator();
         return $this->pipe($maxValidation, $params);
