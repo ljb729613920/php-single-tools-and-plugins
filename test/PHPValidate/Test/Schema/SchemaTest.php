@@ -26,7 +26,7 @@ class SchemaTest extends TestCase
             ],
             'representantes' => [
                 [
-                    'nom1e' => '1'
+                    'nsome' => 'Jose'
                 ]
             ]
         ];
@@ -46,7 +46,7 @@ class SchemaTest extends TestCase
             ], ['code' => 'invalid_schema'])
         ]);
 
-        var_dump($schema->validate(null, $data)['representantes'][0]);
+        var_dump($schema->getErrors($data)->getErrorsOfField('representantes'));
 
     }
 

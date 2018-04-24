@@ -36,6 +36,11 @@ class SchemaValidation extends Validation
             ->toArray();
     }
 
+    public function getErrors(array $data) {
+        $errors = $this->validate(null, $data);
+
+        return new ErrorBag($errors);
+    }
 
     public function isValid( $content, $param ): bool
     {
