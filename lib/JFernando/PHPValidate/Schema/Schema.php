@@ -9,6 +9,8 @@
 namespace JFernando\PHPValidate\Schema;
 
 
+use JFernando\PHPValidate\NumericValidator;
+
 class Schema extends PipeValidation
 {
 
@@ -27,17 +29,32 @@ class Schema extends PipeValidation
     }
 
     public static function string($params = []) {
+        $params['code'] = $params['code'] ?? 'string';
         return new StringPipeValidator($params);
     }
 
     public static function integer($params = [])
     {
+        $params['code'] = $params['code'] ?? 'integer';
         return new IntegerPipeValidation($params);
     }
 
     public static function collection($params = [])
     {
+        $params['code'] = $params['code'] ?? 'collection';
         return new ArrayPipeValidation($params);
+    }
+
+    public static function pipeline($validator, $params = [])
+    {
+        $params['code'] = $params['code'] ?? 'pipeline';
+        return new PipeValidation([new ValidationAdapter($params, $validator)]);
+    }
+
+    public static function numeric($params = [])
+    {
+        $params['code'] = $params['code'] ?? 'numeric';
+        return new PipeValidation([new ValidationAdapter($params, new NumericValidator())]);
     }
 
 }
