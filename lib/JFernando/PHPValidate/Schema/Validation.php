@@ -30,6 +30,10 @@ abstract class Validation implements Validator
         $param = $params['param'] ?? [];
         $others = $params['params'] ?? [];
 
+        if(!$required && $value === null) {
+            return false;
+        }
+
         if ($this->isValid($value, $param)) {
             return false;
         }
