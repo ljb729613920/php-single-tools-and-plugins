@@ -26,7 +26,7 @@ class SchemaTest extends TestCase
             ],
             'representantes' => [
                 [
-                    'nome' => '1'
+                    'nom1e' => '1'
                 ]
             ]
         ];
@@ -35,18 +35,18 @@ class SchemaTest extends TestCase
         var_dump($data);
 
         $schema = Schema::schema([
-//            'nome' => Schema::string(['code' => 'wow'])->min(10, ['code' => 'wow2'])->required(['code' => 'wow3']),
-//            'cpfCnpj' => Schema::string()->pipe(new CpfCnpjValidator(), ['code' => 'bemlokoessecpf']),
-//            'endereco' => Schema::schema([
-//                'logradouro' => Schema::string()->min(10),
-//                'numero' => Schema::integer()->min(10)->max(50)
-//            ]),
+            'nome' => Schema::string(['code' => 'wow'])->min(10, ['code' => 'wow2'])->required(['code' => 'wow3']),
+            'cpfCnpj' => Schema::string()->pipe(new CpfCnpjValidator(), ['code' => 'bemlokoessecpf']),
+            'endereco' => Schema::schema([
+                'logradouro' => Schema::string()->min(10),
+                'numero' => Schema::integer()->min(10)->max(50)
+            ]),
             'representantes' => Schema::collection()->min(1)->schema([
                 'nome' => Schema::string()->required()
             ], ['code' => 'invalid_schema'])
         ]);
 
-        var_dump($schema->validate(null, $data));
+        var_dump($schema->validate(null, $data)['representantes'][0]);
 
     }
 

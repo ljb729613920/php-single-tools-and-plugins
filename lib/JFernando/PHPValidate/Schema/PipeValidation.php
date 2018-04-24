@@ -64,7 +64,7 @@ class PipeValidation extends Validation
 
                 return false;
             })
-            ->toArray();
+            ->toVector();
     }
 
 

@@ -35,6 +35,6 @@ class ArraySchemaValidation extends PipeValidation
             ->filter(function ($arr) {
                 return is_array($arr) && count($arr) > 0;
             })
-            ->toArray();
+            ->toVector();
     }
 }

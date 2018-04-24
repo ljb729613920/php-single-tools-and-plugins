@@ -43,6 +43,16 @@ class ArrayUtil
         return $this->array;
     }
 
+    public function toVector()
+    {
+        $result = [];
+        foreach ( $this->toArray() as $item ) {
+            $result[] = $item;
+        }
+
+        return $result;
+    }
+
     public function map(\Closure $function)
     {
         $lista = $this->array;
