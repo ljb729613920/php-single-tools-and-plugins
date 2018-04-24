@@ -9,6 +9,7 @@
 namespace JFernando\PHPValidate\Schema;
 
 
+use JFernando\PHPValidate\BooleanValidator;
 use JFernando\PHPValidate\NumericValidator;
 
 class Schema extends PipeValidation
@@ -55,6 +56,12 @@ class Schema extends PipeValidation
     {
         $params['code'] = $params['code'] ?? 'numeric';
         return new PipeValidation([new ValidationAdapter($params, new NumericValidator())]);
+    }
+
+    public static function boolean($params = [])
+    {
+        $params['code'] = $params['code'] ?? 'boolean';
+        return new PipeValidation([new ValidationAdapter($params, new BooleanValidator())]);
     }
 
 }
