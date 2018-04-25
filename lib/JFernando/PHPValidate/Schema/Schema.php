@@ -64,4 +64,10 @@ class Schema extends PipeValidation
         return new PipeValidation([new ValidationAdapter($params, new BooleanValidator())]);
     }
 
+    public static function expression(string $expression, $params = [])
+    {
+        return new ExpressionValidation($expression, $params);
+    }
+
+
 }
