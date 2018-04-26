@@ -25,13 +25,18 @@ class PipeValidation extends Validation
     }
 
     public function pipe($validation, $params = []) {
-        if ($validation instanceof Validation || is_callable($validation)) {
+        if ($validation instanceof Validation) {
             $this->validations[] = $validation;
             return $this;
         }
 
         if($validation instanceof Validator) {
             $this->pipe(new ValidationAdapter($params, $validation));
+            return $this;
+        }
+
+        if(is_callable($validation)) {
+            $this->pipe(new FunctionValidation($validation, $params));
             return $this;
         }
 
@@ -50,11 +55,9 @@ class PipeValidation extends Validation
             ->map(function($validator) use ($field, $value) {
                 if ($validator instanceof Validation) {
                    return $validator->validate($field, $value );
-                } else if (is_callable($validator)) {
-                    return $validator($field, $value);
-                } else {
-                    throw new \InvalidArgumentException("Invalid validation for field ${field}");
                 }
+
+                throw new \InvalidArgumentException("Invalid validation for field ${field}");
             })
             ->filter(function($arr) {
                 if(is_array($arr) && count($arr) > 0) {
