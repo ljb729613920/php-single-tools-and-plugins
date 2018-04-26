@@ -32,10 +32,36 @@ class SchemaValidation extends Validation
 
         return $util
             ->map(function(Validation $validation, $key) use ($value) {
-                return $validation->validate($key, $value[$key] ?? null);
+                $result = $validation->validate($key, $value[$key] ?? null);
+                if($validation->name && is_array($result) && count($result) > 0) {
+                    $result['name'] = $validation->name;
+                };
+                return $result;
             })
             ->filter(function($arr) {
                 return (bool) $arr;
+            })
+            ->map(function ($data, $key) use ($field) {
+                $path = $data['path'] ?? null;
+                $name = $data['name'] ?? null;
+
+                if($field) {
+                    if($path) {
+                        $path = "{$field}.{$key}.{$path}";
+                    } else {
+                        $path = "{$field}.{$key}";
+                    }
+                } else {
+                    $path = $key;
+                }
+
+                if($name) {
+                    $path = "{$path}.{$name}";
+                }
+
+                $data['path'] = $path;
+
+                return $data;
             })
             ->toArray();
     }

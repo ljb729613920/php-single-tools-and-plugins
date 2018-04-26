@@ -20,6 +20,12 @@ abstract class Validation implements Validator
 
     public function __construct(array $params)
     {
+        $name = $params['name'] ?? null;
+
+        if($name) {
+            $this->name = $name;
+        }
+
         $this->params = $params;
         $this->required = true;
     }
