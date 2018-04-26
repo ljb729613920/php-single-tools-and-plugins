@@ -133,4 +133,13 @@ class ArrayUtil
 
         return new ArrayUtil($result);
     }
+
+    public function drop(int $quantity)
+    {
+        return $this
+            ->filter(function($val, $key) use ($quantity) {
+                return $key >= $quantity;
+            });
+    }
+
 }

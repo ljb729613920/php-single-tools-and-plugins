@@ -18,12 +18,12 @@ class SchemaTest extends TestCase
 
     public function testSchemaValidation() {
         $data = [
-//            'nome' => 'Jorge Fernando',
-//            'cpfCnpj' => '95727493234',
-//            'endereco' => [
-//                'logradouro' => 'Rua saõ paulp kahdk akdjas',
-//                'numero' => 32
-//            ],
+            'nome' => 'Jorge Fernando',
+            'cpfCnpj' => '95727493234',
+            'endereco' => [
+                'logradouro' => 'Rua saõ paulp kahdk akdjas',
+                'numero' => 32
+            ],
             'representantes' => [
                 [
                     'nsome' => 'Jose'
@@ -48,6 +48,15 @@ class SchemaTest extends TestCase
 
         var_dump($schema->getErrors($data));
 
+    }
+
+    public function testSchemaValidationWithExpression()
+    {
+        $schema = Schema::schema([
+            'name' => Schema::expression('string|min:10|max:40')
+        ]);
+
+        var_dump($schema->getErrors(['name' => 'Jorge Fernando']));
     }
 
 }
