@@ -46,7 +46,7 @@ class SchemaTest extends TestCase
             ], ['code' => 'invalid_schema'])
         ]);
 
-        var_dump($schema->getErrors($data));
+        var_dump($schema->errors($data));
 
     }
 
@@ -56,7 +56,7 @@ class SchemaTest extends TestCase
             'name' => Schema::expression('string|min:10|max:40')
         ]);
 
-        var_dump($schema->getErrors(['name' => 'Jorge Fernando']));
+        var_dump($schema->errors(['name' => 'Jorge Fernando']));
     }
 
 }

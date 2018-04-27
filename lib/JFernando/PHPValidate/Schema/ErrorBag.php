@@ -28,7 +28,7 @@ class ErrorBag
         return [];
     }
 
-    public function getErrors() {
+    public function toArray() {
         return $this->errors;
     }
 
