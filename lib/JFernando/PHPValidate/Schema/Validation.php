@@ -54,7 +54,7 @@ abstract class Validation implements Validator
             return false;
         }
 
-        return [
+        $errorArray = [
             'valid' => false,
             'field' => $field,
             'code' => $code,
@@ -65,5 +65,7 @@ abstract class Validation implements Validator
             'value' => $value,
             'name' => $this->name
         ];
+
+        return new Error($errorArray);
     }
 }
