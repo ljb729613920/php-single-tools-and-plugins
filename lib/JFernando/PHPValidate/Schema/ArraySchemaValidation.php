@@ -28,12 +28,12 @@ class ArraySchemaValidation extends PipeValidation
         $result = [];
         foreach ( $values as $item ) {
             $schema = new SchemaValidation($this->schema);
-            $result[] = $schema->validate(null, $item);;
+            $result[] = $schema->validate($field, $item);
         }
 
         return (new ArrayUtil($result))
             ->filter(function ($arr) {
-                return is_array($arr) && count($arr) > 0;
+                return (is_array($arr) && count($arr) > 0) || $arr instanceof Error;
             })
             ->toVector();
     }

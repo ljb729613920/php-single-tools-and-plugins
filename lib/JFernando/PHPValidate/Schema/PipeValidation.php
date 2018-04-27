@@ -60,11 +60,7 @@ class PipeValidation extends Validation
                 throw new \InvalidArgumentException("Invalid validation for field ${field}");
             })
             ->filter(function($arr) {
-                if(is_array($arr) && count($arr) > 0) {
-                    return true;
-                };
-
-                return false;
+                return (is_array($arr) && count($arr) > 0) || $arr instanceof Error;
             })
             ->toVector();
     }
