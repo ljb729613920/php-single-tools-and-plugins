@@ -67,7 +67,7 @@ class ExpressionValidation extends PipeValidation
             throw new \InvalidArgumentException("Invalid pipe '${validatorName}'");
         }
 
-        return $this->pipe($validator, ['code' => $validatorName, 'param' => $param]);
+        return $this->pipe($validator, ['name' => $validatorName, 'param' => $param]);
     }
 
     private static function initializeDefaultExpressions()

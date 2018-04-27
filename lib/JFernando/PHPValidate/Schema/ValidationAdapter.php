@@ -19,7 +19,7 @@ class ValidationAdapter extends Validation
 
     public function __construct(array $params, Validator $validator)
     {
-        $params['code'] = $params['code'] ?? (new Reflection($validator))->getShortName();
+        $params['name'] = $params['name'] ?? (new Reflection($validator))->getShortName();
         parent::__construct($params);
         $this->validator = $validator;
     }

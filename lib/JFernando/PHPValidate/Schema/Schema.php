@@ -30,37 +30,37 @@ class Schema extends PipeValidation
     }
 
     public static function string($params = []) {
-        $params['code'] = $params['code'] ?? 'string';
+        $params['name'] = $params['name'] ?? 'string';
         return new StringPipeValidator($params);
     }
 
     public static function integer($params = [])
     {
-        $params['code'] = $params['code'] ?? 'integer';
+        $params['name'] = $params['name'] ?? 'integer';
         return new IntegerPipeValidation($params);
     }
 
     public static function collection($params = [])
     {
-        $params['code'] = $params['code'] ?? 'collection';
+        $params['name'] = $params['name'] ?? 'collection';
         return new ArrayPipeValidation($params);
     }
 
     public static function pipeline($validator, $params = [])
     {
-        $params['code'] = $params['code'] ?? 'pipeline';
+        $params['name'] = $params['name'] ?? 'pipeline';
         return (new PipeValidation([]))->pipe($validator, $params);
     }
 
     public static function numeric($params = [])
     {
-        $params['code'] = $params['code'] ?? 'numeric';
+        $params['name'] = $params['name'] ?? 'numeric';
         return new PipeValidation([new ValidationAdapter($params, new NumericValidator())]);
     }
 
     public static function boolean($params = [])
     {
-        $params['code'] = $params['code'] ?? 'boolean';
+        $params['name'] = $params['name'] ?? 'boolean';
         return new PipeValidation([new ValidationAdapter($params, new BooleanValidator())]);
     }
 

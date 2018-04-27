@@ -24,7 +24,7 @@ class IntegerPipeValidation extends PipeValidation
 
     public function min(int $min, $params = [])
     {
-        $params['code'] = $params['code'] ?? 'integer.min';
+        $params['name'] = $params['name'] ?? 'min';
         $params['param'] = $min;
         $minValidation = new MinValidator();
         return $this->pipe($minValidation, $params);
@@ -32,7 +32,7 @@ class IntegerPipeValidation extends PipeValidation
 
     public function max(int $max, $params = [])
     {
-        $params['code'] = $params['code'] ?? 'integer.max';
+        $params['name'] = $params['name'] ?? 'max';
         $params['param'] = $max;
         $minValidation = new MaxValidator();
         return $this->pipe($minValidation, $params);

@@ -45,9 +45,6 @@ abstract class Validation implements Validator
         $required = $params['required'] ?? $this->required;
         $param = $params['param'] ?? [];
         $others = $params;
-        $path = $params['path'] ?? $field;
-
-        $path = $this->name ? $path . '.' . $this->name : $path;
 
         if(!$required && $value === null) {
             return false;
@@ -66,7 +63,6 @@ abstract class Validation implements Validator
             'param' => $param,
             'params' => $others,
             'value' => $value,
-            'path' => $path,
             'name' => $this->name
         ];
     }
