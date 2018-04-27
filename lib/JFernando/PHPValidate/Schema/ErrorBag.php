@@ -9,6 +9,8 @@
 namespace JFernando\PHPValidate\Schema;
 
 
+use JFernando\PHPValidate\Utils\ArrayUtil;
+
 class ErrorBag
 {
 
@@ -30,6 +32,45 @@ class ErrorBag
 
     public function toArray() {
         return $this->errors;
+    }
+
+    public function flatten()
+    {
+        return $this->_flatten($this->errors, []);
+    }
+
+    private function _flatten($errors, array $result, $parentKey = null) {
+        if($errors instanceof Error) {
+            $name = $errors->getName();
+
+            if($parentKey) {
+                $name = "${parentKey}.${name}";
+            }
+
+            $result[$name] = $errors;
+
+            return $result;
+        }
+
+        if(ArrayUtil::isAssociativeArray($errors)) {
+            foreach ( $errors as $key => $error ) {
+                $name = $key;
+
+                if($parentKey) {
+                    $name = "${parentKey}.${key}";
+                }
+
+                $result = $this->_flatten($error, $result, $name);
+            }
+
+            return $result;
+        }
+
+        foreach ( $errors as $error ) {
+            $result = $this->_flatten($error, $result, $parentKey);
+        }
+
+        return $result;
     }
 
     public function isValid()
