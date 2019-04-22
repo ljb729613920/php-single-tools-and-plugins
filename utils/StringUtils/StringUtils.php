@@ -95,7 +95,7 @@ class StringUtils {
                 if (preg_match("/[\x{4e00}-\x{9fa5}]+/u", $name)) {
                     $name = mb_substr($name, 0, $length, 'UTF-8') . $replaceChar;
                 } else {
-                    $name = '万师傅';
+                    $name = 'xxx';
                 }
                 break;
             case 2://替换模式成 王小二 -> 王*二，支持英文
